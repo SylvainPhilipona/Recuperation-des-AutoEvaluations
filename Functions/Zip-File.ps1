@@ -1,5 +1,5 @@
 function Zip-File{
-    param([string]$folderInclude, [string]$outZip)
+    param([string]$outZip, [string]$folderInclude)
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     [System.IO.Compression.CompressionLevel]$compression = "Optimal"
     $ziparchive = [System.IO.Compression.ZipFile]::Open( $outZip, "Update" )
