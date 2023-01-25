@@ -9,16 +9,48 @@ function Get-ExcelCellInfo {
     # Install-Module ImportExcel -Scope CurrentUser -Confirm:$false #https://github.com/dfinke/ImportExcel
 
 
-    #Get all excel files from the repo
-    $AllFiles = Get-ChildItem -Path ".\DataFiles\*.xlsx"
+    # #Get all excel files from the repo
+    # $AllFiles = Get-ChildItem -Path ".\DataFiles\*.xlsx"
     
 
-    foreach($file in $AllFiles){
+    # foreach($file in $AllFiles){
         
-        Import-Excel -Path ".\DataFiles\$($file.name)"
+    #     Import-Excel -Path ".\DataFiles\$($file.name)"
 
-        "------------------------------------------------------"
+    #     "------------------------------------------------------"
+    # }
+
+
+    $students = @(
+        "Joca Bolli",
+        "Nolan Praz",
+        "Dorian Capelli"
+    )
+
+
+    foreach($student in  $students){
+
+        #Import the model file
+        $excel = New-Object -ComObject excel.application
+        $excel.visible = $false
+        $workbook = $excel.Workbooks.Open("$($PSScriptRoot)\Modeles\Modele_AutoEval.xlsx")
+        $Sheet1 = $workbook.worksheets.item(1)
+
+        #Replace the cells with the incoming datas
+        $Sheet1.cells.find("[NAME]") = $students
+
+
+        $workbook.Saveas("$($PSScriptRoot)\Output\AutoEval-$($student.replace(' ', '-')).xlsx")
+
+        
+
+        $excel.workbooks.Close()
+
     }
+
+
+   
+
 
 
 
