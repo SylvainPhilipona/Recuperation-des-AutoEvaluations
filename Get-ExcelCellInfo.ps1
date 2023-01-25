@@ -6,7 +6,7 @@ function Get-ExcelCellInfo {
 
     # Set-PSRepository -name  "PSGallery" -InstallationPolicy Trusted
     # Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope CurrentUser
-    # Install-Module ImportExcel -Scope CurrentUser -Confirm:$false
+    # Install-Module ImportExcel -Scope CurrentUser -Confirm:$false #https://github.com/dfinke/ImportExcel
 
 
     #Get all excel files from the repo
@@ -16,6 +16,8 @@ function Get-ExcelCellInfo {
     foreach($file in $AllFiles){
         
         Import-Excel -Path ".\DataFiles\$($file.name)"
+
+        "------------------------------------------------------"
     }
 
 
