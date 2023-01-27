@@ -44,6 +44,10 @@ function Get-ExcelCellInfo {
         $workbook = $excel.Workbooks.Open("$($PSScriptRoot)\DataFiles\Modele_AutoEval.xlsx")
         $Sheet1 = $workbook.worksheets.item(1)
 
+        #Unprotect the sheet
+        $Sheet1.Unprotect()
+        
+
         #Replace the cells with the incoming datas
         $Sheet1.cells.find("[NAME]") = "$($student.Prenom) $($student.Nom)"
         $Sheet1.cells.find("[CLASSE]") = $hash["Classe"]
@@ -51,6 +55,9 @@ function Get-ExcelCellInfo {
         $Sheet1.cells.find("[PROJECTNAME]") = $hash["Nom du projet"]
         $Sheet1.cells.find("[NBWEEKS]") = $hash["Nbr de semaines"]
         $Sheet1.cells.find("[DATES]") = "$($hash["Date debut"].ToString("yyyy/MM/dd"))-$($hash["Date fin"].ToString("yyyy/MM/dd"))"
+
+        #Protect the sheet
+        $Sheet1.Protect()
         
         #Save the file
         $workbook.Saveas("$($PSScriptRoot)\Output\AutoEval-$($student.Prenom + "-" + $student.Nom).xlsx")
