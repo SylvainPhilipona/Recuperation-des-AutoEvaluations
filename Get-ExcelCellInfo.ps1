@@ -9,16 +9,26 @@ function Get-ExcelCellInfo {
     . .\Manage-Functions.ps1
     . Manage-Functions
 
-    # Set-PSRepository -name  "PSGallery" -InstallationPolicy Trusted
-    # Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope CurrentUser
-    # Install-Module ImportExcel -Scope CurrentUser -Confirm:$false #https://github.com/dfinke/ImportExcel
 
-    # https://powershell.one/tricks/parsing/excel
+    Write-Verbose "Installing NuGet..."
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.208 -Scope CurrentUser -Force -Confirm:$false
+    
+    if((Get-PSRepository -Name "PSGallery").InstallationPolicy -ne "Trusted"){
+        Write-Verbose "Setting PSGallery repo to Trusted..."
+        Set-PSRepository -name  "PSGallery" -InstallationPolicy Trusted
+    }
+
+    if(!(Get-Module -ListAvailable -name ImportExcel)){
+        Write-Verbose "Instaling ImportExcel"
+        Install-Module ImportExcel -Scope CurrentUser -Confirm:$false #https://github.com/dfinke/ImportExcel
+    }
+
+    # return
 
 
     #Import the inputs
-    $Inputs = (Import-Excel -Path $InputsPath -WorksheetName "inputs") #| Select-Object "Champs","Valeurs"
-    $Students = (Import-Excel -Path $InputsPath -WorksheetName "students") #| Select-Object "Nom","Prenom"
+    $Inputs = (Import-Excel -Path $InputsPath -WorksheetName "inputs")
+    $Students = (Import-Excel -Path $InputsPath -WorksheetName "students")
 
     #Convert to hash table
     $hash = @{}
@@ -52,7 +62,6 @@ function Get-ExcelCellInfo {
 
 
    
-
 
 
 
