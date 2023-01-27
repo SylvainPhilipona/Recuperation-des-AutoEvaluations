@@ -1,4 +1,9 @@
 function Get-ExcelCellInfo {
+
+    param (
+        [string]$ModelPath = "$($PSScriptRoot)\DataFiles\Modele_AutoEval.xlsx",
+        [string]$InputsPath = "$($PSScriptRoot)\DataFiles\Inputs_AutoEval.xlsx"
+    )
     
     #Load the required functions
     . .\Manage-Functions.ps1
@@ -8,29 +13,12 @@ function Get-ExcelCellInfo {
     # Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope CurrentUser
     # Install-Module ImportExcel -Scope CurrentUser -Confirm:$false #https://github.com/dfinke/ImportExcel
 
-
-    # #Get all excel files from the repo
-    # $AllFiles = Get-ChildItem -Path ".\DataFiles\*.xlsx"
-    
-
-    # foreach($file in $AllFiles){
-        
-    #     Import-Excel -Path ".\DataFiles\$($file.name)"
-
-    #     "------------------------------------------------------"
-    # }
-
-
-
     # https://powershell.one/tricks/parsing/excel
 
 
-    $students = @(
-        "Joca Bolli",
-        "Nolan Praz",
-        "Dorian Capelli"
-    )
-
+    #Import the inputs
+    $Inputs = (Import-Excel -Path $InputsPath -WorksheetName "inputs") #| Select-Object "Champs","Valeurs"
+    $Students = (Import-Excel -Path $InputsPath -WorksheetName "students") #| Select-Object "Nom","Prenom"
 
     foreach($student in  $students){
 
@@ -41,15 +29,14 @@ function Get-ExcelCellInfo {
         $Sheet1 = $workbook.worksheets.item(1)
 
         #Replace the cells with the incoming datas
-        $Sheet1.cells.find("[NAME]") = $student
+        $Sheet1.cells.find("[NAME]") = "$($student.Prenom) $($student.Nom)"
 
-
-        $workbook.Saveas("$($PSScriptRoot)\Output\AutoEval-$($student.replace(' ', '-')).xlsx")
+        #Save the file
+        $workbook.Saveas("$($PSScriptRoot)\Output\AutoEval-$($student.Prenom + "-" + $student.Nom).xlsx")
 
         
-
+        #Close the object
         $excel.workbooks.Close()
-
     }
 
 
