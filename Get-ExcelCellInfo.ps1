@@ -1,34 +1,38 @@
 function Get-ExcelCellInfo {
+
+    param (
+        [string]$ModelPath = "$($PSScriptRoot)\DataFiles\Modele_AutoEval.xlsx",
+        [string]$InputsPath = "$($PSScriptRoot)\DataFiles\Inputs_AutoEval.xlsx"
+    )
     
     #Load the required functions
     . .\Manage-Functions.ps1
     . Manage-Functions
 
-    # Set-PSRepository -name  "PSGallery" -InstallationPolicy Trusted
-    # Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope CurrentUser
-    # Install-Module ImportExcel -Scope CurrentUser -Confirm:$false #https://github.com/dfinke/ImportExcel
 
-
-    # #Get all excel files from the repo
-    # $AllFiles = Get-ChildItem -Path ".\DataFiles\*.xlsx"
+    Write-Verbose "Installing NuGet..."
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.208 -Scope CurrentUser -Force -Confirm:$false
     
+    if((Get-PSRepository -Name "PSGallery").InstallationPolicy -ne "Trusted"){
+        Write-Verbose "Setting PSGallery repo to Trusted..."
+        Set-PSRepository -name  "PSGallery" -InstallationPolicy Trusted
+    }
 
-    # foreach($file in $AllFiles){
-        
-    #     Import-Excel -Path ".\DataFiles\$($file.name)"
-
-    #     "------------------------------------------------------"
-    # }
+    if(!(Get-Module -ListAvailable -name ImportExcel)){
+        Write-Verbose "Instaling ImportExcel"
+        Install-Module ImportExcel -Scope CurrentUser -Confirm:$false #https://github.com/dfinke/ImportExcel
+    }
 
 
-    # https://powershell.one/tricks/parsing/excel
+    #Import the inputs
+    $Inputs = (Import-Excel -Path $InputsPath -WorksheetName "inputs")
+    $Students = (Import-Excel -Path $InputsPath -WorksheetName "students")
 
-    $students = @(
-        "Joca Bolli",
-        "Nolan Praz",
-        "Dorian Capelli"
-    )
-
+    #Convert to hash table
+    $hash = @{}
+    foreach($input in $Inputs){
+        $hash.Add($input.Champs, $input.Valeurs)
+    }
 
     foreach($student in  $students){
 
@@ -38,20 +42,30 @@ function Get-ExcelCellInfo {
         $workbook = $excel.Workbooks.Open("$($PSScriptRoot)\Modeles\Modele_AutoEval.xlsx")
         $Sheet1 = $workbook.worksheets.item(1)
 
-        #Replace the cells with the incoming datas
-        $Sheet1.cells.find("[NAME]") = $students
+        #Unprotect the sheet
+        $Sheet1.Unprotect()  
 
-        $workbook.Saveas("$($PSScriptRoot)\Output\AutoEval-$($student.replace(' ', '-')).xlsx")
+        #Replace the cells with the incoming datas
+        $Sheet1.cells.find("[NAME]") = "$($student.Prenom) $($student.Nom)"
+        $Sheet1.cells.find("[CLASSE]") = $hash["Classe"]
+        $Sheet1.cells.find("[TEACHER]") = $hash["Enseignant"]
+        $Sheet1.cells.find("[PROJECTNAME]") = $hash["Nom du projet"]
+        $Sheet1.cells.find("[NBWEEKS]") = $hash["Nbr de semaines"]
+        $Sheet1.cells.find("[DATES]") = "$($hash["Date debut"].ToString("yyyy/MM/dd"))-$($hash["Date fin"].ToString("yyyy/MM/dd"))"
+
+        #Protect the sheet
+        $Sheet1.Protect()
+        
+        #Save the file
+        $workbook.Saveas("$($PSScriptRoot)\Output\AutoEval-$($student.Prenom + "-" + $student.Nom).xlsx")
 
         
-
+        #Close the object
         $excel.workbooks.Close()
-
     }
 
 
    
-
 
 
 
