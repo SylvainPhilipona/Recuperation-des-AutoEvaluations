@@ -20,6 +20,12 @@ function Get-ExcelCellInfo {
     $Inputs = (Import-Excel -Path $InputsPath -WorksheetName "inputs") #| Select-Object "Champs","Valeurs"
     $Students = (Import-Excel -Path $InputsPath -WorksheetName "students") #| Select-Object "Nom","Prenom"
 
+    #Convert to hash table
+    $hash = @{}
+    foreach($input in $Inputs){
+        $hash.Add($input.Champs, $input.Valeurs)
+    }
+
     foreach($student in  $students){
 
         #Import the model file
@@ -30,7 +36,12 @@ function Get-ExcelCellInfo {
 
         #Replace the cells with the incoming datas
         $Sheet1.cells.find("[NAME]") = "$($student.Prenom) $($student.Nom)"
-
+        $Sheet1.cells.find("[CLASSE]") = $hash["Classe"]
+        $Sheet1.cells.find("[TEACHER]") = $hash["Enseignant"]
+        $Sheet1.cells.find("[PROJECTNAME]") = $hash["Nom du projet"]
+        $Sheet1.cells.find("[NBWEEKS]") = $hash["Nbr de semaines"]
+        # $Sheet1.cells.find("[DATES]") = $hash[]
+        
         #Save the file
         $workbook.Saveas("$($PSScriptRoot)\Output\AutoEval-$($student.Prenom + "-" + $student.Nom).xlsx")
 
