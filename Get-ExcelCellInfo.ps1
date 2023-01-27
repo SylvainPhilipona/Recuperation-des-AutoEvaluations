@@ -40,7 +40,7 @@ function Get-ExcelCellInfo {
         $Sheet1.cells.find("[TEACHER]") = $hash["Enseignant"]
         $Sheet1.cells.find("[PROJECTNAME]") = $hash["Nom du projet"]
         $Sheet1.cells.find("[NBWEEKS]") = $hash["Nbr de semaines"]
-        # $Sheet1.cells.find("[DATES]") = $hash[]
+        $Sheet1.cells.find("[DATES]") = "$($hash["Date debut"].ToString("yyyy/MM/dd"))-$($hash["Date fin"].ToString("yyyy/MM/dd"))"
         
         #Save the file
         $workbook.Saveas("$($PSScriptRoot)\Output\AutoEval-$($student.Prenom + "-" + $student.Nom).xlsx")
