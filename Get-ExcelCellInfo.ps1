@@ -1,36 +1,35 @@
 function Get-ExcelCellInfo {
 
     param (
-        [string]$ModelPath = "$($PSScriptRoot)\DataFiles\Modele_AutoEval.xlsx",
-        [string]$InputsPath = "$($PSScriptRoot)\DataFiles\Inputs_AutoEval.xlsx"
+        [string]$InputsPath = "$($PSScriptRoot)\DataFiles\01-configs-auto-eval.xlsx",
+        [string]$ModelPath = "$($PSScriptRoot)\DataFiles\02-modele-auto-eval.xlsx"
     )
     
     #Load the required functions
     . .\Manage-Functions.ps1
     . Manage-Functions
 
+    #Load the data file
+    $data = Import-LocalizedData -BaseDirectory ./DataFiles -FileName Inputs.psd1
 
-    Write-Verbose "Installing NuGet..."
-    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.208 -Scope CurrentUser -Force -Confirm:$false
-    
-    if((Get-PSRepository -Name "PSGallery").InstallationPolicy -ne "Trusted"){
-        Write-Verbose "Setting PSGallery repo to Trusted..."
-        Set-PSRepository -name  "PSGallery" -InstallationPolicy Trusted
-    }
-
-    if(!(Get-Module -ListAvailable -name ImportExcel)){
-        Write-Verbose "Instaling ImportExcel"
-        Install-Module ImportExcel -Scope CurrentUser -Confirm:$false #https://github.com/dfinke/ImportExcel
-    }
-
-    # return
-
+    #Install all requirements for the script to run
+    Install-Requirements
 
     #Import the inputs
     $Inputs = (Import-Excel -Path $InputsPath -WorksheetName "inputs")
     $Students = (Import-Excel -Path $InputsPath -WorksheetName "students")
 
-    #Convert to hash table
+    #Check that the Config file contains all the required inputs
+    foreach($input in $data.RequiredInputs.GetEnumerator()){
+        if(!($Inputs.Champs.contains($input.Value))){
+            #Unloading the functions
+            . Manage-Functions -remove
+
+            throw "Il manque un champ wesh"
+        }
+    }
+
+    #Convert Inputs to hash table
     $hash = @{}
     foreach($input in $Inputs){
         $hash.Add($input.Champs, $input.Valeurs)
@@ -41,7 +40,7 @@ function Get-ExcelCellInfo {
         #Import the model file
         $excel = New-Object -ComObject excel.application
         $excel.visible = $false
-        $workbook = $excel.Workbooks.Open("$($PSScriptRoot)\DataFiles\Modele_AutoEval.xlsx")
+        $workbook = $excel.Workbooks.Open($ModelPath)
         $Sheet1 = $workbook.worksheets.item(1)
 
         #Unprotect the sheet
@@ -63,8 +62,10 @@ function Get-ExcelCellInfo {
         $workbook.Saveas("$($PSScriptRoot)\Output\AutoEval-$($student.Prenom + "-" + $student.Nom).xlsx")
 
         
-        #Close the object
+        #Close the object https://social.technet.microsoft.com/Forums/office/en-US/e5d8594b-b14b-4a54-913c-61089b5d9ab4/release-or-delete-a-com-object-from-powershell?forum=winserverpowershell
         $excel.workbooks.Close()
+        $excel.Quit()
+        [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel)
     }
 
 
