@@ -29,8 +29,8 @@ function Create-AutoEvals {
         if(!($Configs.Champs.contains($input.Value))){
             #Unloading the functions
             . Manage-Functions -remove
+            Write-Host "Il manque un champ wesh" -ForegroundColor Red
             Stop-Transcript
-
             throw "Il manque un champ wesh"
         }
     }
@@ -46,6 +46,16 @@ function Create-AutoEvals {
         Write-Host "Creating $($student.Prenom) $($student.Nom) AutoEval"
 
         #Import the model file
+        try{
+            $excel = New-Object -ComObject excel.application
+        }
+        catch [System.Runtime.InteropServices.COMException] {
+            #Unloading the functions
+            . Manage-Functions -remove
+            Write-Host "Excel n'est pas installé. Veuillez l'installer et recomencer !" -ForegroundColor Red
+            Stop-Transcript
+            throw "Excel n'est pas installé. Veuillez l'installer et recomencer !"
+        }
         $excel = New-Object -ComObject excel.application
         $excel.visible = $false
         $workbook = $excel.Workbooks.Open($ModelPath)
