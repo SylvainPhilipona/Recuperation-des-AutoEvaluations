@@ -14,6 +14,10 @@
     # # Description of the functionality provided by this module
     # Description = ''
 
+    ConfigFile = @{
+        ConfigSheet = 'configs'
+        StudentsSheet = 'students'
+    }
 
     RequiredInputs = @{
         CLASSE = 'Classe'
