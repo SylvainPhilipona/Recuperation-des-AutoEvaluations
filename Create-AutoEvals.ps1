@@ -1,9 +1,11 @@
-function Get-ExcelCellInfo {
+function Create-AutoEvals {
 
     param (
         [string]$ConfigsPath = "$($PSScriptRoot)\DataFiles\01-configs-auto-eval.xlsx",
         [string]$ModelPath = "$($PSScriptRoot)\DataFiles\02-modele-auto-eval.xlsx"
     )
+
+    Start-Transcript -Path "./Output/Output.log" -Append -Force
     
     #Load the required functions
     . .\Manage-Functions.ps1
@@ -14,10 +16,12 @@ function Get-ExcelCellInfo {
 
     #Load the data file
     $data = Import-LocalizedData -BaseDirectory ./DataFiles -FileName Inputs.psd1
+    Write-Host "Loading inputs file" -ForegroundColor Green
 
     #Import the configs and students inputs
     $Configs = (Import-Excel -Path $ConfigsPath -WorksheetName $data.ConfigFile.ConfigSheet)
     $Students = (Import-Excel -Path $ConfigsPath -WorksheetName $data.ConfigFile.StudentsSheet)
+    Write-Host "Loading configs file" -ForegroundColor Green
 
     # Check that the Config file contains all the required inputs.
     # The inputs are specified in the Inputs.psd1 file
@@ -25,7 +29,8 @@ function Get-ExcelCellInfo {
         if(!($Configs.Champs.contains($input.Value))){
             #Unloading the functions
             . Manage-Functions -remove
-
+            Write-Host "Il manque un champ wesh" -ForegroundColor Red
+            Stop-Transcript
             throw "Il manque un champ wesh"
         }
     }
@@ -38,7 +43,19 @@ function Get-ExcelCellInfo {
 
     foreach($student in  $students){
 
+        Write-Host "Creating $($student.Prenom) $($student.Nom) AutoEval"
+
         #Import the model file
+        try{
+            $excel = New-Object -ComObject excel.application
+        }
+        catch [System.Runtime.InteropServices.COMException] {
+            #Unloading the functions
+            . Manage-Functions -remove
+            Write-Host "Excel n'est pas installé. Veuillez l'installer et recomencer !" -ForegroundColor Red
+            Stop-Transcript
+            throw "Excel n'est pas installé. Veuillez l'installer et recomencer !"
+        }
         $excel = New-Object -ComObject excel.application
         $excel.visible = $false
         $workbook = $excel.Workbooks.Open($ModelPath)
@@ -62,55 +79,17 @@ function Get-ExcelCellInfo {
         $filename = "$($PSScriptRoot)\Output\AutoEval-$($student.Prenom + "-" + $student.Nom).xlsx"
         Remove-Item -Path $filename -Force -Confirm:$false -ErrorAction SilentlyContinue
         $workbook.Saveas($filename)
+        Write-Host "    --> Saving $filename"
 
         
         #Close the object
         $excel.workbooks.Close()
         $excel.Quit()
-        [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel)
+        [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null
     }
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# # "test" | Out-File "./DataFiles/Test.txt" -Verbose
-
-    # UnZip-File "./DataFiles/Test.docx" "./DataFiles/Temp"
-
-    # Remove-Item "./DataFiles/Ninino.docx" -Force -ErrorAction SilentlyContinue
-    # Zip-File "./DataFiles/Ninino.docx" "./DataFiles/Temp"
-
-
-
-
 
     #Unloading the functions
     . Manage-Functions -remove
+
+    Stop-Transcript
 }
