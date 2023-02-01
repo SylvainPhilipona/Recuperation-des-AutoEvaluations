@@ -1,4 +1,4 @@
-function Create-AutoEvals {
+﻿function Create-AutoEvals {
 
     param (
         [string]$ConfigsPath = "$($PSScriptRoot)\DataFiles\01-configs-auto-eval.xlsx",
@@ -27,11 +27,7 @@ function Create-AutoEvals {
     # The inputs are specified in the Inputs.psd1 file
     foreach($input in $data.RequiredInputs.GetEnumerator()){
         if(!($Configs.Champs.contains($input.Value))){
-            #Unloading the functions
-            . Manage-Functions -remove
-            Write-Host "Il manque un champ wesh" -ForegroundColor Red
-            Stop-Transcript
-            throw "Il manque un champ wesh"
+            Stop-Program -errorMessage "Il manque un champ wesh"
         }
     }
 
@@ -50,11 +46,7 @@ function Create-AutoEvals {
             $excel = New-Object -ComObject excel.application
         }
         catch [System.Runtime.InteropServices.COMException] {
-            #Unloading the functions
-            . Manage-Functions -remove
-            Write-Host "Excel n'est pas installé. Veuillez l'installer et recomencer !" -ForegroundColor Red
-            Stop-Transcript
-            throw "Excel n'est pas installé. Veuillez l'installer et recomencer !"
+           Stop-Program -errorMessage "Excel n'est pas installé. Veuillez l'installer et recomencer !"
         }
         $excel = New-Object -ComObject excel.application
         $excel.visible = $false
