@@ -89,9 +89,10 @@
     }
 
     #Save and close the object
-    # AutoEvals-ProjectName-Classe-Prof-01.xlsx
-    $FileName = "$($PSScriptRoot)\Output\AutoEvals-$($ConfigsHash[$data.RequiredInputs.PROJECTNAME])-$($ConfigsHash[$data.RequiredInputs.CLASSE])-$($ConfigsHash[$data.RequiredInputs.VISA])-1.xlsx"
-    $WorkbooxExport.Saveas($FileName)
+    # AutoEvals-ProjectName-Classe-Prof-01.xlsm
+    $ExcelFixedFormat = [Microsoft.Office.Interop.Excel.XlFileFormat]::xlOpenXMLWorkbookMacroEnabled
+    $FileName = "$($PSScriptRoot)\Output\AutoEvals-$($ConfigsHash[$data.RequiredInputs.PROJECTNAME])-$($ConfigsHash[$data.RequiredInputs.CLASSE])-$($ConfigsHash[$data.RequiredInputs.VISA])-1.xlsm"
+    $WorkbooxExport.Saveas($FileName,$ExcelFixedFormat)
     $excel.workbooks.Close()
     $excel.Quit()
     [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null
