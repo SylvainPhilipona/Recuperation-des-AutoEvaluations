@@ -65,17 +65,20 @@
         $DATES = Find-CellByName -Sheet $SheetEval -name "DATES"
         $FINALNOTE = Find-CellByName -Sheet $SheetEval -name "FINALNOTE"
         
-        "    --> " + $NAME.Text
-        "    --> " + $CLASSE.Text
-        "    --> " + $TEACHER.Text
-        "    --> " + $PROJECTNAME.Text
-        "    --> " + $NBWEEKS.Text
-        "    --> " + $DATES.Text
-        "    --> " + $FINALNOTE.Text
+        write-host "Importing data :" -ForegroundColor Green
+        "   " + $NAME.Text
+        "   " + $CLASSE.Text
+        "   " + $TEACHER.Text
+        "   " + $PROJECTNAME.Text
+        "   " + $NBWEEKS.Text
+        "   " + $DATES.Text
+        "   " + $FINALNOTE.Text
 
         #Copy the auto eval in the export file
         $SheetEval.copy($WorkbooxExport.sheets.item(1))
         $WorkbookEval.Close()
+
+        
     }
 
 
