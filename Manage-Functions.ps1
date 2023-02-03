@@ -4,7 +4,7 @@ function Manage-Functions {
     )
 
     $ScriptsPath = "Functions"
-    $scripts = Get-ChildItem -Recurse $ScriptsPath -in *.ps1
+    $scripts = Get-ChildItem -Recurse $ScriptsPath -Include *.ps1
 
     foreach($item in $scripts){
         if($remove){

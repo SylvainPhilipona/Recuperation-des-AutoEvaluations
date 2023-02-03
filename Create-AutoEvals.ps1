@@ -64,6 +64,9 @@
         $Sheet1.cells.find("[NBWEEKS]") = $ConfigsHash[$data.RequiredInputs.NBWEEKS]
         $Sheet1.cells.find("[DATES]") = "$($ConfigsHash[$data.RequiredInputs.DATES].ToString("yyyy/MM/dd"))-$($ConfigsHash["Date fin"].ToString("yyyy/MM/dd"))"
 
+        #Set the sheet name
+        $Sheet1.Name = "$($student.Prenom) $($student.Nom)"
+
         #Protect the sheet
         $Sheet1.Protect()
         
