@@ -34,7 +34,7 @@
         Stop-Program -errorMessage "Le dossier '$FilesPath' ne contient pas d'auto évaluations"
     }
 
-
+    #Create the com object
     try{
         $excel = New-Object -ComObject excel.application
         $excel.visible = $false
@@ -73,6 +73,7 @@
         "    --> " + $DATES.Text
         "    --> " + $FINALNOTE.Text
 
+        #Copy the auto eval in the export file
         $SheetEval.copy($WorkbooxExport.sheets.item(1))
         $WorkbookEval.Close()
     }
@@ -85,10 +86,13 @@
     }
 
     #Save and close the object
-    $WorkbooxExport.Saveas("$($PSScriptRoot)\Output\AutoEvals-$($ConfigsHash[$data.RequiredInputs.PROJECTNAME])-$($ConfigsHash[$data.RequiredInputs.CLASSE])-$($ConfigsHash[$data.RequiredInputs.VISA])-1.xlsx")
+    # AutoEvals-ProjectName-Classe-Prof-01.xlsx
+    $FileName = "$($PSScriptRoot)\Output\AutoEvals-$($ConfigsHash[$data.RequiredInputs.PROJECTNAME])-$($ConfigsHash[$data.RequiredInputs.CLASSE])-$($ConfigsHash[$data.RequiredInputs.VISA])-1.xlsx"
+    $WorkbooxExport.Saveas($FileName)
     $excel.workbooks.Close()
     $excel.Quit()
     [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null
+    "Saving $filename"
 
 
     #Unloading the functions
