@@ -44,8 +44,7 @@
        Stop-Program -errorMessage "Excel n'est pas installé. Veuillez l'installer et recomencer !"
     }
 
-    $WorkbooxSynthesis = $excel.workbooks.Add()
-    $WorkbookSynthesisModel = $excel.workbooks.Open($SynthesisModelPath)
+    $WorkbooxSynthesis = $excel.workbooks.Open($SynthesisModelPath)
 
     # Recover all evals in the folder
     foreach($eval in $AutoEvals){
@@ -77,14 +76,7 @@
         #Copy the auto eval in the synthesis file
         $SheetEval.copy($WorkbooxSynthesis.sheets.item(1))
         $WorkbookEval.Close()
-
-        
     }
-
-    $WorkbookSynthesisModel | Get-Member
-
-    $WorkbookSynthesisModel.sheets(1).Copy($WorkbooxSynthesis.sheets.item(1))
-    $WorkbookSynthesisModel.close()
 
     #Convert Configs to ConfigsHash table
     $ConfigsHash = @{}
