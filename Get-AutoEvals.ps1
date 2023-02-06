@@ -1,6 +1,7 @@
 ﻿function Get-AutoEvals {
     param (
         [string]$ConfigsPath = "$($PSScriptRoot)\DataFiles\01-configs-auto-eval.xlsx",
+        [string]$SynthesisModelPath = "$($PSScriptRoot)\DataFiles\03-synthese-auto-eval.xlsm",
         [string]$FilesPath = "$($PSScriptRoot)\Output"
     )
 
@@ -43,9 +44,8 @@
        Stop-Program -errorMessage "Excel n'est pas installé. Veuillez l'installer et recomencer !"
     }
 
-    $WorkbooxExport = $excel.workbooks.Add()
-    $WorkbooxExport.sheets.item(1).Name = "MASTER"
-
+    $WorkbooxSynthesis = $excel.workbooks.Add()
+    $WorkbookSynthesisModel = $excel.workbooks.Open($SynthesisModelPath)
 
     # Recover all evals in the folder
     foreach($eval in $AutoEvals){
@@ -74,25 +74,30 @@
         "   " + $DATES.Text
         "   " + $FINALNOTE.Text
 
-        #Copy the auto eval in the export file
-        $SheetEval.copy($WorkbooxExport.sheets.item(1))
+        #Copy the auto eval in the synthesis file
+        $SheetEval.copy($WorkbooxSynthesis.sheets.item(1))
         $WorkbookEval.Close()
 
         
     }
 
+    $WorkbookSynthesisModel | Get-Member
+
+    $WorkbookSynthesisModel.sheets(1).Copy($WorkbooxSynthesis.sheets.item(1))
+    $WorkbookSynthesisModel.close()
 
     #Convert Configs to ConfigsHash table
     $ConfigsHash = @{}
     foreach($config in $Configs){
         $ConfigsHash.Add($config.Champs, $config.Valeurs)
     }
+    
 
     #Save and close the object
     # AutoEvals-ProjectName-Classe-Prof-01.xlsm
     $ExcelFixedFormat = [Microsoft.Office.Interop.Excel.XlFileFormat]::xlOpenXMLWorkbookMacroEnabled
     $FileName = "$($PSScriptRoot)\Output\AutoEvals-$($ConfigsHash[$data.RequiredInputs.PROJECTNAME])-$($ConfigsHash[$data.RequiredInputs.CLASSE])-$($ConfigsHash[$data.RequiredInputs.VISA])-1.xlsm"
-    $WorkbooxExport.Saveas($FileName,$ExcelFixedFormat)
+    $WorkbooxSynthesis.Saveas($FileName,$ExcelFixedFormat)
     $excel.workbooks.Close()
     $excel.Quit()
     [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null
