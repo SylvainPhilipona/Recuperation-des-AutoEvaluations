@@ -49,29 +49,11 @@
     # Recover all evals in the folder
     foreach($eval in $AutoEvals){
 
-        Write-Host "Loading $($eval.FullName)"
+        Write-Host "Importing $($eval.FullName)"
 
-        #Import the model file
+        #Open the auto eval
         $WorkbookEval = $excel.Workbooks.Open($eval.FullName)
         $SheetEval = $WorkbookEval.worksheets.item(1)
-
-        #Get all cells with the needed content
-        $NAME = Find-CellByName -Sheet $SheetEval -name "NAME"
-        $CLASSE = Find-CellByName -Sheet $SheetEval -name "CLASSE"
-        $TEACHER = Find-CellByName -Sheet $SheetEval -name "TEACHER"
-        $PROJECTNAME = Find-CellByName -Sheet $SheetEval -name "PROJECTNAME"
-        $NBWEEKS = Find-CellByName -Sheet $SheetEval -name "NBWEEKS"
-        $DATES = Find-CellByName -Sheet $SheetEval -name "DATES"
-        $FINALNOTE = Find-CellByName -Sheet $SheetEval -name "FINALNOTE"
-        
-        write-host "Importing data :" -ForegroundColor Green
-        "   " + $NAME.Text
-        "   " + $CLASSE.Text
-        "   " + $TEACHER.Text
-        "   " + $PROJECTNAME.Text
-        "   " + $NBWEEKS.Text
-        "   " + $DATES.Text
-        "   " + $FINALNOTE.Text
 
         #Copy the auto eval in the synthesis file
         $SheetEval.copy($WorkbooxSynthesis.sheets.item(1))
