@@ -2,9 +2,10 @@ param (
     [string]$errorMessage
 )
 
-#Unloading the functions
-. Manage-Functions -remove
 
-Stop-Transcript
+try{
+    Stop-Transcript | out-null
+}
+catch{}
 
 throw $errorMessage

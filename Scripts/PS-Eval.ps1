@@ -10,7 +10,7 @@ public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);
 function Hide-Console
 {
     $consolePtr = [Console.Window]::GetConsoleWindow()
-    #0 hide
+    #0 = hide
     [Console.Window]::ShowWindow($consolePtr, 0) | Out-Null
 } 
 Hide-Console
@@ -71,6 +71,14 @@ $synthesisPathInput.Top = $modelPathInput.Bottom + 15
 $synthesisPathInput.Text = "$($PSScriptRoot)\DataFiles\03-synthese-auto-eval.xlsm",
 $form.Controls.Add($synthesisPathInput)
 
+# Output Path
+$outputPathInput = New-Object System.Windows.Forms.TextBox
+$outputPathInput.Size = New-Object System.Drawing.Size(($form.Size.Width - 50),30)
+$outputPathInput.Left = ($form.ClientSize.Width - $outputPathInput.Width) / 2 ;
+$outputPathInput.Top = $synthesisPathInput.Bottom + 15 
+$outputPathInput.Text = "$($PSScriptRoot)\Output",
+$form.Controls.Add($outputPathInput)
+
 
 # Create auto-evals Button event
 $createEvalsButton.Add_Click(
@@ -78,15 +86,19 @@ $createEvalsButton.Add_Click(
         # Lock the form and buttons
         $form.Enabled = $false
 
+        # Trim the Output Path 
+        $outputPathInput.Text = $outputPathInput.Text.TrimEnd(' ')
+        $outputPathInput.Text = $outputPathInput.Text.TrimEnd('\')
+
         try{
             # Start the creation
-            .\Create-AutoEvals.ps1 -ConfigsPath $configPathInput.Text -ModelPath $modelPathInput.Text
+            .\Create-AutoEvals.ps1 -ConfigsPath $configPathInput.Text -ModelPath $modelPathInput.Text -OutputPath $outputPathInput.Text
 
             [System.Windows.Forms.MessageBox]::Show("Tout bon" , "My Dialog Box")
         }
         catch{
             #Display the error message
-            [System.Windows.Forms.MessageBox]::Show($_ , "My Dialog Box")
+            [System.Windows.Forms.MessageBox]::Show($_ , "Erreur d'execution")
         }
         
         # Unlock the form and buttons
@@ -100,15 +112,19 @@ $getEvalsButton.Add_Click(
         # Lock the form and buttons
         $form.Enabled = $false
 
+        # Trim the Output Path 
+        $outputPathInput.Text = $outputPathInput.Text.TrimEnd(' ')
+        $outputPathInput.Text = $outputPathInput.Text.TrimEnd('\')
+
         try{
             # Start the creation
-            .\Get-AutoEvals.ps1 -ConfigsPath $configPathInput.Text -SynthesisModelPath $synthesisPathInput.Text -FilesPath "$($PSScriptRoot)\Output"
+            .\Get-AutoEvals.ps1 -ConfigsPath $configPathInput.Text -SynthesisModelPath $synthesisPathInput.Text -FilesPath $outputPathInput.Text
 
             [System.Windows.Forms.MessageBox]::Show("Tout bon" , "My Dialog Box")
         }
         catch{
             #Display the error message
-            [System.Windows.Forms.MessageBox]::Show($_ , "My Dialog Box")
+            [System.Windows.Forms.MessageBox]::Show($_ , "Erreur d'execution")
         }
         
         # Unlock the form and buttons

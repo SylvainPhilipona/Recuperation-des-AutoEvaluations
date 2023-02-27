@@ -1,9 +1,14 @@
 ﻿param (
     [string]$ConfigsPath, # = "$($PSScriptRoot)\DataFiles\01-configs-auto-eval.xlsx",
-    [string]$ModelPath # = "$($PSScriptRoot)\DataFiles\02-modele-auto-eval.xlsx"
+    [string]$ModelPath, # = "$($PSScriptRoot)\DataFiles\02-modele-auto-eval.xlsx"
+    [string]$OutputPath
 )
 
-Start-Transcript -Path "./Output/Output.log" -Append -Force
+# if(!(Test-Path -Path $OutputPath -PathType Container)){
+#     .\Stop-Program.ps1 -errorMessage "Le dossier $OutputPath n'existe pas"
+# }
+
+Start-Transcript -Path "$OutputPath/Output.log" -Append -Force
 
 #Install all requirements for the script to run
 .\Install-Requirements.ps1
@@ -12,8 +17,8 @@ Start-Transcript -Path "./Output/Output.log" -Append -Force
 $data = Import-LocalizedData -BaseDirectory ./DataFiles -FileName Inputs.psd1
 Write-Host "Loading inputs file" -ForegroundColor Green
 
-#Verify if the config and model file exists
-$testPaths = ./Test-Paths.ps1 -paths $ConfigsPath, $ModelPath
+#Verify if the config and model files exists
+$testPaths = .\Test-Paths.ps1 -paths $ConfigsPath, $ModelPath
 if(!$testPaths.count -eq 0){
     #Dispaly the missing paths
     $errorMessage = "Les fichiers suivants n'existent pas : `n`r"
@@ -76,7 +81,7 @@ foreach($student in  $students){
     $Sheet1.Protect()
     
     #Save the new file as the student name (Overwrite if the file exists)
-    $filename = "$($PSScriptRoot)\Output\AutoEval-$($student.Prenom + "-" + $student.Nom).xlsx"
+    $filename = "$OutputPath\AutoEval-$($student.Prenom + "-" + $student.Nom).xlsx"
     Remove-Item -Path $filename -Force -Confirm:$false -ErrorAction SilentlyContinue
     $workbook.Saveas($filename)
     Write-Host "    --> Saving $filename"
