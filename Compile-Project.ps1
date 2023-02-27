@@ -10,6 +10,9 @@ foreach($script in $scripts){
 
 (Get-Content ".\Scripts\PS-Eval.ps1").Replace(".\", "").Replace(".ps1", "") >> $compile
 
+New-Item -Path . -Name "start.bat"
+Set-Content "start.bat" "powershell -executionPolicy bypass -noexit -file $compile"
+
 
 # Install-Module ps2exe -Scope CurrentUser
 # Import-Module ps2exe -UseWindowsPowerShell
