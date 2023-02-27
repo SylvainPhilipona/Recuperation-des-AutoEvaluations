@@ -1,6 +1,6 @@
 ﻿$scripts = Get-ChildItem -Path .\Scripts -Filter *.ps1 -Exclude "PS-Eval.ps1" -Recurse
 
-$compile = "Compiled.ps1"
+$compile = "app-eval-projets.ps1"
 
 foreach($script in $scripts){
     "Function $($script.Name.Replace('.ps1', '')) {" >> $compile

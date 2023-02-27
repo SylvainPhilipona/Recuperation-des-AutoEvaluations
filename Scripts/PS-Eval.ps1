@@ -52,7 +52,7 @@ $configPathInput = New-Object System.Windows.Forms.TextBox
 $configPathInput.Size = New-Object System.Drawing.Size(($form.Size.Width - 50),30)
 $configPathInput.Left = ($form.ClientSize.Width - $configPathInput.Width) / 2 ;
 $configPathInput.Top = $getEvalsButton.Bottom + 15 
-$configPathInput.Text = "$($PSScriptRoot)\DataFiles\01-configs-auto-eval.xlsx"
+$configPathInput.Text = "$($PSScriptRoot)\01-config\01-infos-proj-eleves.xlsx"
 $form.Controls.Add($configPathInput)
 
 # Model Path
@@ -60,7 +60,7 @@ $modelPathInput = New-Object System.Windows.Forms.TextBox
 $modelPathInput.Size = New-Object System.Drawing.Size(($form.Size.Width - 50),30)
 $modelPathInput.Left = ($form.ClientSize.Width - $modelPathInput.Width) / 2 ;
 $modelPathInput.Top = $configPathInput.Bottom + 15 
-$modelPathInput.Text = "$($PSScriptRoot)\DataFiles\02-modele-auto-eval.xlsx"
+$modelPathInput.Text = "$($PSScriptRoot)\01-config\02-modele-grille.xlsx"
 $form.Controls.Add($modelPathInput)
 
 # Synthesis Path
@@ -68,7 +68,7 @@ $synthesisPathInput = New-Object System.Windows.Forms.TextBox
 $synthesisPathInput.Size = New-Object System.Drawing.Size(($form.Size.Width - 50),30)
 $synthesisPathInput.Left = ($form.ClientSize.Width - $synthesisPathInput.Width) / 2 ;
 $synthesisPathInput.Top = $modelPathInput.Bottom + 15 
-$synthesisPathInput.Text = "$($PSScriptRoot)\DataFiles\03-synthese-auto-eval.xlsm",
+$synthesisPathInput.Text = "$($PSScriptRoot)\01-config\03-synthese-eval.xlsm",
 $form.Controls.Add($synthesisPathInput)
 
 # Output Path
@@ -76,7 +76,7 @@ $outputPathInput = New-Object System.Windows.Forms.TextBox
 $outputPathInput.Size = New-Object System.Drawing.Size(($form.Size.Width - 50),30)
 $outputPathInput.Left = ($form.ClientSize.Width - $outputPathInput.Width) / 2 ;
 $outputPathInput.Top = $synthesisPathInput.Bottom + 15 
-$outputPathInput.Text = "$($PSScriptRoot)\Output",
+$outputPathInput.Text = "$($PSScriptRoot)\02-evaluations",
 $form.Controls.Add($outputPathInput)
 
 
@@ -98,6 +98,7 @@ $createEvalsButton.Add_Click(
         }
         catch{
             #Display the error message
+            Stop-Transcript
             [System.Windows.Forms.MessageBox]::Show($_ , "Erreur d'execution")
         }
         
@@ -124,6 +125,7 @@ $getEvalsButton.Add_Click(
         }
         catch{
             #Display the error message
+            Stop-Transcript
             [System.Windows.Forms.MessageBox]::Show($_ , "Erreur d'execution")
         }
         

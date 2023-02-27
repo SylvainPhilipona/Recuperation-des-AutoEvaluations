@@ -70,7 +70,7 @@ Start-Transcript -Path "$OutputPath/Output.log" -Append -Force
 .\Install-Requirements.ps1
 
 #Load the data file
-$data = Import-LocalizedData -BaseDirectory ./DataFiles -FileName Inputs.psd1
+$data = Import-LocalizedData -BaseDirectory "$($PSScriptRoot)\01-config" -FileName Inputs.psd1
 Write-Host "Chargement du fichier d'inputs" -ForegroundColor Green
 
 #Verify if the config and model files exists
