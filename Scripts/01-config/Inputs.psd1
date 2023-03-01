@@ -25,6 +25,7 @@
         PROJECTNAME = 'Nom du projet'
         NBWEEKS = 'Nbr de semaines'
         DATES = 'Date debut'
+        DATEEND = 'Date fin'
         VISA = 'Visa Enseignant'
     } 
 }
