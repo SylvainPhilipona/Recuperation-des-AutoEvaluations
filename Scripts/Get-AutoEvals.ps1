@@ -32,7 +32,7 @@
     - Un fichier log avec les actions éffectuées
 	
 .EXAMPLE
-    .\Create-AutoEvals.ps1 -ConfigsPath ".\01-config\01-configs-auto-eval.xlsx" -SynthesisModelPath ".\01-config\03-synthese-auto-eval.xlsm" -FilesPath ".\02-evaluations"
+    .\Create-AutoEvals.ps1 -ConfigsPath "./01-config\01-configs-auto-eval.xlsx" -SynthesisModelPath "./01-config\03-synthese-auto-eval.xlsm" -FilesPath "./02-evaluations"
  	
     Installation de NuGet
     Chargement du fichier d'inputs

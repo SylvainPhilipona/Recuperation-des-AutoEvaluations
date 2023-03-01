@@ -161,16 +161,15 @@ $getEvalsButton.Add_Click(
         # Trim the Output Path 
         $outputPathInput.Text = $outputPathInput.Text.TrimEnd(' ')
         $outputPathInput.Text = $outputPathInput.Text.TrimEnd('\')
-
+        
         try{
             # Start the creation
             .\Get-AutoEvals.ps1 -ConfigsPath $configPathInput.Text -SynthesisModelPath $synthesisPathInput.Text -FilesPath $outputPathInput.Text
-
             [System.Windows.Forms.MessageBox]::Show("Tout bon" , "My Dialog Box")
         }
         catch{
             #Display the error message
-            Stop-Transcript
+            try{Stop-Transcript}catch{}
             [System.Windows.Forms.MessageBox]::Show($_ , "Erreur d'execution")
         }
         

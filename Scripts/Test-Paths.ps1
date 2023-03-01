@@ -1,4 +1,4 @@
-<#
+﻿<#
 .NOTES
     *****************************************************************************
     ETML
@@ -24,11 +24,11 @@
     - Un tableau de tout les elements qui n'existent pas
 	
 .EXAMPLE
-    .\Test-Paths.ps1 -paths ".\01-config\01-infos-proj-eleves.xlsx", ".\01-config\02-modele-grille.xlsx", ".\01-config" 
+    .\Test-Paths.ps1 -paths "./01-config\01-infos-proj-eleves.xlsx", "./01-config\02-modele-grille.xlsx", "./01-config" 
 
-    .\01-config\01-infos-proj-eleves.xlsx
-    .\01-config\02-modele-grille.xlsx
-    .\01-config
+    ./01-config\01-infos-proj-eleves.xlsx
+    ./01-config\02-modele-grille.xlsx
+    ./01-config
 #>
 
 param (

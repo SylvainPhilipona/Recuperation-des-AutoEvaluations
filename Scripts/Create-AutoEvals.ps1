@@ -34,7 +34,7 @@
     - Tout les fichiers sont crées dans le répertoire défini dans 'OutputPath'
 
 .EXAMPLE
-    .\Create-AutoEvals.ps1 -ConfigsPath ".\01-config\01-configs-auto-eval.xlsx" -ModelPath ".\01-config\02-modele-auto-eval.xlsx" -OutputPath ".\02-evaluations"
+    .\Create-AutoEvals.ps1 -ConfigsPath "./01-config\01-configs-auto-eval.xlsx" -ModelPath "./01-config\02-modele-auto-eval.xlsx" -OutputPath "./02-evaluations"
 
     Installation de NuGet
     Chargement du fichier d'inputs
