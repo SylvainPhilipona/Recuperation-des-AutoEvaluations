@@ -28,19 +28,21 @@
     Ceci est le chemin où les fichiers des auto-évaluations personels des élèves vont êtres récupérés
 
 .OUTPUTS
-    
+    - Un fichier synthèse 'AutoEvals-ProjectName-Classe-Prof-01.xlsm' englobant toutes les auto-évaluations des élèves
+    - Un fichier log avec les actions éffectuées
 	
 .EXAMPLE
-    .\Create-AutoEvals.ps1 -ConfigsPath ".\DataFiles\01-configs-auto-eval.xlsx" -SynthesisModelPath ".\DataFiles\03-synthese-auto-eval.xlsm" -FilesPath ".\Output"
+    .\Create-AutoEvals.ps1 -ConfigsPath ".\01-config\01-configs-auto-eval.xlsx" -SynthesisModelPath ".\01-config\03-synthese-auto-eval.xlsm" -FilesPath ".\02-evaluations"
  	
     Installation de NuGet
     Chargement du fichier d'inputs
     Chargement du fichier de configurations
-    Importation de E:\09-P_Appro\PS-Eval\Scripts\Output\AutoEval-Dorian-Capelli.xlsx
-    Importation de E:\09-P_Appro\PS-Eval\Scripts\Output\AutoEval-Joca-Bolli.xlsx
-    Importation de E:\09-P_Appro\PS-Eval\Scripts\Output\AutoEval-Nolan-Praz.xlsx
-    Importation de E:\09-P_Appro\PS-Eval\Scripts\Output\AutoEval-Sayeh-Younes.xlsx
-    Importation de E:\09-P_Appro\PS-Eval\Scripts\Output\AutoEval-Sylvain-Philipona.xlsx
+    Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Dorian-Capelli.xlsx
+    Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Joca-Bolli.xlsx
+    Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Nolan-Praz.xlsx
+    Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Sayeh-Younes.xlsx
+    Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Sylvain-Philipona.xlsx
+    Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEvals-P_Appro-CIN4b-GGZ-1.xlsm
 .LINK
     Install-Requirements.ps1
     Stop-Program.ps1
@@ -122,6 +124,6 @@ $WorkbooxSynthesis.Saveas($FileName,$ExcelFixedFormat)
 $excel.workbooks.Close()
 $excel.Quit()
 [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null
-"Enregistrement de $filename"
+Write-Host "Enregistrement de $filename"
 
 Stop-Transcript
