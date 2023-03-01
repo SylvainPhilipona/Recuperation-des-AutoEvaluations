@@ -4,7 +4,7 @@ $compile = "app-eval-projets.ps1"
 
 foreach($script in $scripts){
     "Function $($script.Name.Replace('.ps1', '')) {" >> $compile
-        (Get-Content $script.FullName).Replace(".\", "").Replace(".ps1", "") >> $compile
+        (Get-Content $script.FullName).Replace(".\", "").Replace(".ps1", "") >> $compile6
     "}" >> $compile
 }
 

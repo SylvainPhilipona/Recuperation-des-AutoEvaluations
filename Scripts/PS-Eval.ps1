@@ -23,7 +23,7 @@ Add-Type -AssemblyName System.Drawing
 # Main form
 $form = New-Object System.Windows.Forms.Form
 $form.Text = 'Récupération des AutoEvaluations'
-$form.Size = New-Object System.Drawing.Size(300,300)
+$form.Size = New-Object System.Drawing.Size(300,170)
 $form.StartPosition = 'CenterScreen'
 $form.FormBorderStyle = 'FixedSingle'
 $form.MaximizeBox = $false
@@ -46,13 +46,23 @@ $getEvalsButton.Top = $createEvalsButton.Bottom + 15
 $getEvalsButton.Text = 'Rappatrier les auto-évaluations'
 $form.Controls.Add($getEvalsButton)
 
-# Config path
+# Advanced Mode link
+$advancedModeLink = New-Object System.Windows.Forms.LinkLabel
+$advancedModeLink.Size = New-Object System.Drawing.Size(($form.Size.Width - 50),30)
+$advancedModeLink.Left = ($form.ClientSize.Width - $advancedModeLink.Width) / 2 ;
+$advancedModeLink.Top = $getEvalsButton.Bottom + 15 
+$advancedModeLink.LinkColor = "BLUE"
+$advancedModeLink.ActiveLinkColor = "RED"
+$advancedModeLink.Text = "Mode avancé"
+$form.Controls.Add($advancedModeLink)
 
+# Config path
 $configPathInput = New-Object System.Windows.Forms.TextBox
 $configPathInput.Size = New-Object System.Drawing.Size(($form.Size.Width - 50),30)
 $configPathInput.Left = ($form.ClientSize.Width - $configPathInput.Width) / 2 ;
-$configPathInput.Top = $getEvalsButton.Bottom + 15 
+$configPathInput.Top = $getEvalsButton.Bottom + 50 
 $configPathInput.Text = "$($PSScriptRoot)\01-config\01-infos-proj-eleves.xlsx"
+$configPathInput.Enabled = $false
 $form.Controls.Add($configPathInput)
 
 # Model Path
@@ -61,6 +71,7 @@ $modelPathInput.Size = New-Object System.Drawing.Size(($form.Size.Width - 50),30
 $modelPathInput.Left = ($form.ClientSize.Width - $modelPathInput.Width) / 2 ;
 $modelPathInput.Top = $configPathInput.Bottom + 15 
 $modelPathInput.Text = "$($PSScriptRoot)\01-config\02-modele-grille.xlsx"
+$modelPathInput.Enabled = $false
 $form.Controls.Add($modelPathInput)
 
 # Synthesis Path
@@ -68,7 +79,8 @@ $synthesisPathInput = New-Object System.Windows.Forms.TextBox
 $synthesisPathInput.Size = New-Object System.Drawing.Size(($form.Size.Width - 50),30)
 $synthesisPathInput.Left = ($form.ClientSize.Width - $synthesisPathInput.Width) / 2 ;
 $synthesisPathInput.Top = $modelPathInput.Bottom + 15 
-$synthesisPathInput.Text = "$($PSScriptRoot)\01-config\03-synthese-eval.xlsm",
+$synthesisPathInput.Text = "$($PSScriptRoot)\01-config\03-synthese-eval.xlsm"
+$synthesisPathInput.Enabled = $false
 $form.Controls.Add($synthesisPathInput)
 
 # Output Path
@@ -76,7 +88,8 @@ $outputPathInput = New-Object System.Windows.Forms.TextBox
 $outputPathInput.Size = New-Object System.Drawing.Size(($form.Size.Width - 50),30)
 $outputPathInput.Left = ($form.ClientSize.Width - $outputPathInput.Width) / 2 ;
 $outputPathInput.Top = $synthesisPathInput.Bottom + 15 
-$outputPathInput.Text = "$($PSScriptRoot)\02-evaluations",
+$outputPathInput.Text = "$($PSScriptRoot)\02-evaluations"
+$outputPathInput.Enabled = $false
 $form.Controls.Add($outputPathInput)
 
 
@@ -131,6 +144,16 @@ $getEvalsButton.Add_Click(
         
         # Unlock the form and buttons
         $form.Enabled = $true
+    }
+);
+
+$advancedModeLink.add_Click(
+    {
+        $form.Size = New-Object System.Drawing.Size(300,335)
+        $configPathInput.Enabled = $true
+        $modelPathInput.Enabled = $true
+        $synthesisPathInput.Enabled = $true
+        $outputPathInput.Enabled = $true
     }
 );
 

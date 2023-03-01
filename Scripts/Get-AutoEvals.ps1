@@ -28,6 +28,7 @@
     Ceci est le chemin où les fichiers des auto-évaluations personels des élèves vont êtres récupérés
 
 .OUTPUTS
+    
 	
 .EXAMPLE
     .\Create-AutoEvals.ps1 -ConfigsPath ".\DataFiles\01-configs-auto-eval.xlsx" -SynthesisModelPath ".\DataFiles\03-synthese-auto-eval.xlsm" -FilesPath ".\Output"

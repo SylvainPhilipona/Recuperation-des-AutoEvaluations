@@ -29,8 +29,9 @@
     Ceci est le chemin où les fichiers des auto-évaluations personels des élèves vont êtres crées
 
 .OUTPUTS
-	- Les fichiers des auto-évaluations personels des élèves
+	- Les fichiers des auto-évaluations personels des élèves (se crée dans le même répertoire)
 	- Un fichier log avec les actions éffectuées
+
 .EXAMPLE
     .\Create-AutoEvals.ps1 -ConfigsPath ".\DataFiles\01-configs-auto-eval.xlsx" -ModelPath ".\DataFiles\02-modele-auto-eval.xlsx" -OutputPath ".\Output"
 
