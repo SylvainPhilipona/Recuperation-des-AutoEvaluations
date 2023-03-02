@@ -7,15 +7,16 @@
     Date:	23.02.2023
  	*****************************************************************************
     Modifications
- 	Date  : 01.03.2023
+ 	Date  : 02.03.2023
  	Author: Sylvain Philipona
  	Reason: Ajout de l'entête
  	*****************************************************************************
 .SYNOPSIS
-    
+    Compile tout les fichiers de scripts en 1 seul
  	
 .DESCRIPTION
-    
+    Récupère tout les scripts .ps1 d'un dossier, les compile en 1 seul et crée un fichier .bat de lancement
+    Permet de générer un fichier simple à uttiliser pour l'utilisateur final
   	
 .PARAMETER compiled
     Le nom du fichier script de sortie qui contient tout les autres scripts
@@ -33,7 +34,10 @@
     Le chemin de sortie du script compilé
 
 .OUTPUTS
-	
+	- Un dossier contenant les éléments suivant
+    - Un dossier avec les fichiers de config
+    - Un fichier .ps1 contenant tout les scripts
+    - Un fichier .bat permettant de lancer le programme
 
 .EXAMPLE
     .\Compile-Project.ps1 -compiled "app-eval-projets.ps1" -mainScript "PS-Eval.ps1" -configsPath "01-config" -scriptsPath "./Scripts" -outputPath "./Program"
