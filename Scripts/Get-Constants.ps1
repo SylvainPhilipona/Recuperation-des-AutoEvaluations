@@ -29,7 +29,7 @@
 #>
 
 return [PSCustomObject]@{
-    form = [PSCustomObject]@{
+    form = @{
         FormWidth = 400
         FormHeight = 170
         FormHeightAdvanced = 380
@@ -38,4 +38,19 @@ return [PSCustomObject]@{
         LabelsHeight = 15
         SpaceBetweenInputs = 15
     }
+
+    ConfigFile = @{
+        ConfigSheet = 'configs'
+        StudentsSheet = 'students'
+    }
+
+    RequiredInputs = @{
+        CLASSE = 'Classe'
+        TEACHER = 'Enseignant'
+        PROJECTNAME = 'Nom du projet'
+        NBWEEKS = 'Nbr de semaines'
+        DATES = 'Date debut'
+        DATEEND = 'Date fin'
+        VISA = 'Visa Enseignant'
+    } 
 }

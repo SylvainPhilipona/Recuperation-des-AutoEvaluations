@@ -7,9 +7,9 @@
     Date:	23.02.2023
  	*****************************************************************************
     Modifications
- 	Date  : 27.02.2023
+ 	Date  : 02.03.2023
  	Author: Sylvain Philipona
- 	Reason: Modification des messages d'erreurs et amélioration de la gestion des erreurs
+ 	Reason: Ajout de constantes via le fichier Get-Constants.ps1
  	*****************************************************************************
 .SYNOPSIS
     Création des auto-évaluations selon une liste d'élèves 
@@ -37,7 +37,6 @@
     .\Create-AutoEvals.ps1 -ConfigsPath "./01-config\01-configs-auto-eval.xlsx" -ModelPath "./01-config\02-modele-auto-eval.xlsx" -OutputPath "./02-evaluations"
 
     Installation de NuGet
-    Chargement du fichier d'inputs
     Chargement du fichier de configurations
     Création de Dorian Capelli AutoEval
         --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Dorian-Capelli.xlsx
@@ -62,6 +61,20 @@ param (
     [string]$OutputPath
 )
 
+#####################  Constants  #####################
+
+$constants = .\Get-Constants.ps1
+$ConfigSheet = $constants.ConfigFile.ConfigSheet
+$StudentsSheet = $constants.ConfigFile.StudentsSheet
+$CLASSE = $constants.RequiredInputs.CLASSE
+$TEACHER = $constants.RequiredInputs.TEACHER
+$PROJECTNAME = $constants.RequiredInputs.PROJECTNAME
+$NBWEEKS = $constants.RequiredInputs.NBWEEKS
+$DATES = $constants.RequiredInputs.DATES
+$DATEEND = $constants.RequiredInputs.DATEEND
+
+
+
 if(!(Test-Path -Path $OutputPath -PathType Container)){
     New-Item -Path $OutputPath -ItemType Directory -Force -Confirm:$false
 }
@@ -70,10 +83,6 @@ Start-Transcript -Path "$OutputPath/Output.log" -Append -Force
 
 #Install all requirements for the script to run
 .\Install-Requirements.ps1
-
-#Load the data file
-$data = Import-LocalizedData -BaseDirectory "$($PSScriptRoot)\01-config" -FileName Inputs.psd1
-Write-Host "Chargement du fichier d'inputs" -ForegroundColor Green
 
 #Verify if the config and model files exists
 $testPaths = .\Test-Paths.ps1 -paths $ConfigsPath, $ModelPath
@@ -87,15 +96,15 @@ if(!$testPaths.count -eq 0){
 }
 
 #Import the configs and students inputs
-$Configs = (Import-Excel -Path $ConfigsPath -WorksheetName $data.ConfigFile.ConfigSheet)
-$Students = (Import-Excel -Path $ConfigsPath -WorksheetName $data.ConfigFile.StudentsSheet)
+$Configs = (Import-Excel -Path $ConfigsPath -WorksheetName $ConfigSheet)
+$Students = (Import-Excel -Path $ConfigsPath -WorksheetName $StudentsSheet)
 Write-Host "Chargement du fichier de configurations" -ForegroundColor Green
 
 # Check that the Config file contains all the required inputs.
-# The inputs are specified in the Inputs.psd1 file
-foreach($input in $data.RequiredInputs.GetEnumerator()){
+# The inputs are specified in the constants file
+foreach($input in $constants.RequiredInputs.GetEnumerator()){
     if(!($Configs.Champs.contains($input.Value))){
-        .\Stop-Program.ps1 -errorMessage "Veuillez remplir tout les champs de configurations"
+        .\Stop-Program.ps1 -errorMessage "Veuillez remplir tout les champs du fichier de configurations $ConfigsPath"
     }
 }
 
@@ -126,11 +135,11 @@ foreach($student in  $students){
     
     #Replace the cells with the configs datas
     $Sheet1.cells.find("[NAME]") = "$($student.Prenom) $($student.Nom)"
-    $Sheet1.cells.find("[CLASSE]") = $ConfigsHash[$data.RequiredInputs.CLASSE]
-    $Sheet1.cells.find("[TEACHER]") = $ConfigsHash[$data.RequiredInputs.TEACHER]
-    $Sheet1.cells.find("[PROJECTNAME]") = $ConfigsHash[$data.RequiredInputs.PROJECTNAME]
-    $Sheet1.cells.find("[NBWEEKS]") = $ConfigsHash[$data.RequiredInputs.NBWEEKS]
-    $Sheet1.cells.find("[DATES]") = "$($ConfigsHash[$data.RequiredInputs.DATES].ToString("yyyy/MM/dd"))-$($ConfigsHash[$data.RequiredInputs.DATEEND].ToString("yyyy/MM/dd"))"
+    $Sheet1.cells.find("[CLASSE]") = $ConfigsHash[$CLASSE]
+    $Sheet1.cells.find("[TEACHER]") = $ConfigsHash[$TEACHER]
+    $Sheet1.cells.find("[PROJECTNAME]") = $ConfigsHash[$PROJECTNAME]
+    $Sheet1.cells.find("[NBWEEKS]") = $ConfigsHash[$NBWEEKS]
+    $Sheet1.cells.find("[DATES]") = "$($ConfigsHash[$DATES].ToString("yyyy/MM/dd"))-$($ConfigsHash[$DATEEND].ToString("yyyy/MM/dd"))"
 
     #Set the sheet name
     $Sheet1.Name = "$($student.Prenom) $($student.Nom)"

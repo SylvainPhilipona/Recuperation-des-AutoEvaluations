@@ -7,9 +7,9 @@
     Date:	23.02.2023
  	*****************************************************************************
     Modifications
- 	Date  : 27.02.2023
+ 	Date  : 02.03.2023
  	Author: Sylvain Philipona
- 	Reason: Modification des messages d'erreurs et amélioration de la gestion des erreurs
+ 	Reason: Ajout de constantes via le fichier Get-Constants.ps1
  	*****************************************************************************
 .SYNOPSIS
     Récupération des auto-évaluations des élèves
@@ -35,7 +35,6 @@
     .\Create-AutoEvals.ps1 -ConfigsPath "./01-config\01-configs-auto-eval.xlsx" -SynthesisModelPath "./01-config\03-synthese-auto-eval.xlsm" -FilesPath "./02-evaluations"
  	
     Installation de NuGet
-    Chargement du fichier d'inputs
     Chargement du fichier de configurations
     Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Dorian-Capelli.xlsx
     Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Joca-Bolli.xlsx
@@ -44,6 +43,7 @@
     Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Sylvain-Philipona.xlsx
     Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEvals-P_Appro-CIN4b-GGZ-1.xlsm
 .LINK
+    Get-Constants.ps1
     Install-Requirements.ps1
     Stop-Program.ps1
 #>
@@ -54,6 +54,15 @@ param (
     [string]$FilesPath
 )
 
+#####################  Constants  #####################
+
+$constants = .\Get-Constants.ps1
+$ConfigSheet = $constants.ConfigFile.ConfigSheet
+$CLASSE = $constants.RequiredInputs.CLASSE
+$PROJECTNAME = $constants.RequiredInputs.PROJECTNAME
+$VISA = $constants.RequiredInputs.VISA
+
+
 if(!(Test-Path -Path $FilesPath -PathType Container)){
     .\Stop-Program.ps1 -errorMessage "Le dossier $FilesPath n'existe pas"
 }
@@ -63,12 +72,8 @@ Start-Transcript -Path "$FilesPath/Output.log" -Append -Force
 #Install all requirements for the script to run
 .\Install-Requirements.ps1
 
-#Load the data file
-$data = Import-LocalizedData -BaseDirectory "$($PSScriptRoot)\01-config" -FileName Inputs.psd1
-Write-Host "Chargement du fichier d'inputs" -ForegroundColor Green
-
 #Import the configs and students inputs
-$Configs = (Import-Excel -Path $ConfigsPath -WorksheetName $data.ConfigFile.ConfigSheet)
+$Configs = (Import-Excel -Path $ConfigsPath -WorksheetName $ConfigSheet)
 Write-Host "Chargement du fichier de configurations" -ForegroundColor Green
 
 # Verify that the folder exists
@@ -115,11 +120,10 @@ foreach($config in $Configs){
     $ConfigsHash.Add($config.Champs, $config.Valeurs)
 }
 
-
 #Save and close the object
 # AutoEvals-ProjectName-Classe-Prof-01.xlsm
 $ExcelFixedFormat = [Microsoft.Office.Interop.Excel.XlFileFormat]::xlOpenXMLWorkbookMacroEnabled
-$FileName = "$FilesPath\AutoEvals-$($ConfigsHash[$data.RequiredInputs.PROJECTNAME])-$($ConfigsHash[$data.RequiredInputs.CLASSE])-$($ConfigsHash[$data.RequiredInputs.VISA])-1.xlsm"
+$FileName = "$FilesPath\AutoEvals-$($ConfigsHash[$PROJECTNAME])-$($ConfigsHash[$CLASSE])-$($ConfigsHash[$VISA])-1.xlsm"
 $WorkbooxSynthesis.Saveas($FileName,$ExcelFixedFormat)
 $excel.workbooks.Close()
 $excel.Quit()
