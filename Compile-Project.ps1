@@ -47,11 +47,12 @@
 param (
     [string]$compiled = "app-eval-projets.ps1",
     [string]$mainScript = "PS-Eval.ps1",
+    [string]$constantsScript = "Get-Constants.ps1",
     [string]$configsPath = "01-config",
     [string]$scriptsPath = "./Scripts",
     [string]$outputPath = "./Program"
 )
-$scripts = Get-ChildItem -Path $scriptsPath -Filter *.ps1 -Exclude $mainScript -Recurse
+$scripts = Get-ChildItem -Path $scriptsPath -Filter *.ps1 -Exclude @($mainScript, $constantsScript) -Recurse
 
 # Create the Output folder and move to it
 New-Item $outputPath -ItemType Directory -Force | Out-Null
@@ -61,6 +62,9 @@ Set-Location $outputPath
 # Remove all ".\" and ".ps1". Because in the files the scripts are called like this ".\My-Function.ps1" and when wrapped like this "My-Function"
 # The result will be output in a file 
 $wrapContent = ""
+$wrapContent += "Function $($constantsScript.Replace('.ps1', '')) {"
+$wrapContent += [IO.File]::ReadAllText("$scriptsPath\$constantsScript").Replace(".\", "").Replace(".ps1", "")
+$wrapContent += "}"
 foreach($script in $scripts){
     $wrapContent += "Function $($script.Name.Replace('.ps1', '')) {"
     $wrapContent +=     [IO.File]::ReadAllText($script.FullName).Replace(".\", "").Replace(".ps1", "")
