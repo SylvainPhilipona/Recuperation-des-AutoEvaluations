@@ -31,23 +31,24 @@
 .OUTPUTS
 	- Les fichiers des auto-évaluations personels des élèves (se crée dans le même répertoire)
 	- Un fichier log avec les actions éffectuées
+    - Tout les fichiers sont crées dans le répertoire défini dans 'OutputPath'
 
 .EXAMPLE
-    .\Create-AutoEvals.ps1 -ConfigsPath ".\DataFiles\01-configs-auto-eval.xlsx" -ModelPath ".\DataFiles\02-modele-auto-eval.xlsx" -OutputPath ".\Output"
+    .\Create-AutoEvals.ps1 -ConfigsPath "./01-config\01-configs-auto-eval.xlsx" -ModelPath "./01-config\02-modele-auto-eval.xlsx" -OutputPath "./02-evaluations"
 
     Installation de NuGet
     Chargement du fichier d'inputs
     Chargement du fichier de configurations
     Création de Dorian Capelli AutoEval
-        --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\Output\AutoEval-Dorian-Capelli.xlsx
+        --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Dorian-Capelli.xlsx
     Création de Nolan Praz AutoEval
-        --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\Output\AutoEval-Nolan-Praz.xlsx
+        --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Nolan-Praz.xlsx
     Création de Joca Bolli AutoEval
-        --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\Output\AutoEval-Joca-Bolli.xlsx
+        --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Joca-Bolli.xlsx
     Création de Sayeh Younes AutoEval
-        --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\Output\AutoEval-Sayeh-Younes.xlsx
+        --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Sayeh-Younes.xlsx
     Création de Sylvain Philipona AutoEval
-        --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\Output\AutoEval-Sylvain-Philipona.xlsx
+        --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Sylvain-Philipona.xlsx
  	
 .LINK
     Install-Requirements.ps1

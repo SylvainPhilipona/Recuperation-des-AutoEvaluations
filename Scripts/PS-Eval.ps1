@@ -1,4 +1,36 @@
-﻿# .Net methods for hiding/showing the console in the background
+﻿<#
+.NOTES
+    *****************************************************************************
+    ETML
+    Name:	PS-Eval.ps1
+    Author:	Sylvain Philipona
+    Date:	24.02.2023
+ 	*****************************************************************************
+    Modifications
+ 	Date  : 01.03.2023
+ 	Author: Sylvain Philipona
+ 	Reason: Ajout du mode avancé
+ 	*****************************************************************************
+.SYNOPSIS
+    Permet le lancement des scripts de création / récupération des auto-évaluations
+ 	
+.DESCRIPTION
+    Ce script affiche un formulaire pour lancer la création / récupération des auto-évaluations
+    Un mode avancé permet de changer les fichiers de modèle, config et le dossier de sortie
+
+.OUTPUTS
+	Affiche un formulaire pour lancer la création / récupération des auto-évaluations
+
+.EXAMPLE
+    .\PS-Eval.ps1
+ 	
+.LINK
+    Create-AutoEvals.ps1
+    Get-AutoEvals.ps1
+#>
+
+
+# .Net methods for hiding/showing the console in the background
 Add-Type -Name Window -Namespace Console -MemberDefinition '
 [DllImport("Kernel32.dll")]
 public static extern IntPtr GetConsoleWindow();
@@ -129,16 +161,15 @@ $getEvalsButton.Add_Click(
         # Trim the Output Path 
         $outputPathInput.Text = $outputPathInput.Text.TrimEnd(' ')
         $outputPathInput.Text = $outputPathInput.Text.TrimEnd('\')
-
+        
         try{
             # Start the creation
             .\Get-AutoEvals.ps1 -ConfigsPath $configPathInput.Text -SynthesisModelPath $synthesisPathInput.Text -FilesPath $outputPathInput.Text
-
             [System.Windows.Forms.MessageBox]::Show("Tout bon" , "My Dialog Box")
         }
         catch{
             #Display the error message
-            Stop-Transcript
+            try{Stop-Transcript}catch{}
             [System.Windows.Forms.MessageBox]::Show($_ , "Erreur d'execution")
         }
         
@@ -157,6 +188,5 @@ $advancedModeLink.add_Click(
     }
 );
 
-
-$result = $form.ShowDialog()
-$result
+# Show the form
+$form.ShowDialog()
