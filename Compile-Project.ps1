@@ -50,7 +50,7 @@ param (
     [string]$constantsScript = "Get-Constants.ps1",
     [string]$configsPath = "01-config",
     [string]$scriptsPath = "./Scripts",
-    [string]$outputPath = "./Program"
+    [string]$outputPath = "./Recuperation-des-AutoEvaluations"
 )
 $scripts = Get-ChildItem -Path $scriptsPath -Filter *.ps1 -Exclude @($mainScript, $constantsScript) -Recurse
 
