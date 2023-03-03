@@ -184,10 +184,12 @@ $createEvalsButton.Add_Click(
         $outputPathInput.Text = $outputPathInput.Text.TrimEnd('\')
 
         try{
+            [System.Windows.Forms.MessageBox]::Show("Lancement de la création des auto-évaluations. Cela peux prendre 1-2 minutes" , "Lancement de la création")
+
             # Start the creation
             .\Create-AutoEvals.ps1 -ConfigsPath $configPathInput.Text -ModelPath $modelPathInput.Text -OutputPath $outputPathInput.Text
 
-            [System.Windows.Forms.MessageBox]::Show("Tout bon" , "My Dialog Box")
+            [System.Windows.Forms.MessageBox]::Show("Les auto-évaluations ont étés crées avec succes !" , "Création réussie")
         }
         catch{
             #Display the error message
@@ -211,9 +213,12 @@ $getEvalsButton.Add_Click(
         $outputPathInput.Text = $outputPathInput.Text.TrimEnd('\')
         
         try{
+            [System.Windows.Forms.MessageBox]::Show("Lancement de la récupération des auto-évaluations. Cela peux prendre 1-2 minutes" , "Lancement de la récupération")
+
             # Start the creation
             .\Get-AutoEvals.ps1 -ConfigsPath $configPathInput.Text -SynthesisModelPath $synthesisPathInput.Text -FilesPath $outputPathInput.Text
-            [System.Windows.Forms.MessageBox]::Show("Tout bon" , "My Dialog Box")
+            [System.Windows.Forms.MessageBox]::Show("Les auto-évaluations ont étés récupérées avec succes !" , "Récupération réussie")
+
         }
         catch{
             #Display the error message

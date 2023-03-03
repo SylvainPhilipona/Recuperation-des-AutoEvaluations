@@ -1,0 +1,74 @@
+﻿**********************
+Début de la transcription Windows PowerShell
+Heure de début : 20230303110109
+Nom d'utilisateur : DGEP\sylphilipona
+Utilisateur runAs :  DGEP\sylphilipona
+Nom de la configuration : 
+Ordinateur : INF-A12-M201 (Microsoft Windows NT 10.0.19044.0)
+Application hôte : C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command Import-Module 'c:\Users\sylphilipona\.vscode\extensions\ms-vscode.powershell-2023.2.1\modules\PowerShellEditorServices\PowerShellEditorServices.psd1'; Start-EditorServices -HostName 'Visual Studio Code Host' -HostProfileId 'Microsoft.VSCode' -HostVersion '2023.2.1' -AdditionalModules @('PowerShellEditorServices.VSCode') -BundledModulesPath 'c:\Users\sylphilipona\.vscode\extensions\ms-vscode.powershell-2023.2.1\modules' -EnableConsoleRepl -StartupBanner "PowerShell Extension v2023.2.1
+Copyright (c) Microsoft Corporation.
+
+https://aka.ms/vscode-powershell
+Type 'help' to get help.
+" -LogLevel 'Normal' -LogPath 'c:\Users\sylphilipona\AppData\Roaming\Code\User\globalStorage\ms-vscode.powershell\logs\1677836422-91a403e1-18ff-45a1-bffd-3200081d6b9a1677836421895\EditorServices.log' -SessionDetailsPath 'c:\Users\sylphilipona\AppData\Roaming\Code\User\globalStorage\ms-vscode.powershell\sessions\PSES-VSCode-14124-557701.json' -FeatureFlags @() 
+ID de processus : 11940
+PSVersion: 5.1.19041.2364
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.19041.2364
+BuildVersion: 10.0.19041.2364
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Installation de NuGet
+Chargement du fichier de configurations
+Création de Dorian Capelli AutoEval
+    --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Dorian-Capelli.xlsx
+Création de Nolan Praz AutoEval
+    --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Nolan-Praz.xlsx
+Création de Joca Bolli AutoEval
+    --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Joca-Bolli.xlsx
+Création de Sayeh Younes AutoEval
+    --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Sayeh-Younes.xlsx
+Création de Sylvain Philipona AutoEval
+    --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Sylvain-Philipona.xlsx
+**********************
+Fin de la transcription Windows PowerShell
+Heure de fin : 20230303110119
+**********************
+**********************
+Début de la transcription Windows PowerShell
+Heure de début : 20230303110130
+Nom d'utilisateur : DGEP\sylphilipona
+Utilisateur runAs :  DGEP\sylphilipona
+Nom de la configuration : 
+Ordinateur : INF-A12-M201 (Microsoft Windows NT 10.0.19044.0)
+Application hôte : C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command Import-Module 'c:\Users\sylphilipona\.vscode\extensions\ms-vscode.powershell-2023.2.1\modules\PowerShellEditorServices\PowerShellEditorServices.psd1'; Start-EditorServices -HostName 'Visual Studio Code Host' -HostProfileId 'Microsoft.VSCode' -HostVersion '2023.2.1' -AdditionalModules @('PowerShellEditorServices.VSCode') -BundledModulesPath 'c:\Users\sylphilipona\.vscode\extensions\ms-vscode.powershell-2023.2.1\modules' -EnableConsoleRepl -StartupBanner "PowerShell Extension v2023.2.1
+Copyright (c) Microsoft Corporation.
+
+https://aka.ms/vscode-powershell
+Type 'help' to get help.
+" -LogLevel 'Normal' -LogPath 'c:\Users\sylphilipona\AppData\Roaming\Code\User\globalStorage\ms-vscode.powershell\logs\1677836422-91a403e1-18ff-45a1-bffd-3200081d6b9a1677836421895\EditorServices.log' -SessionDetailsPath 'c:\Users\sylphilipona\AppData\Roaming\Code\User\globalStorage\ms-vscode.powershell\sessions\PSES-VSCode-14124-557701.json' -FeatureFlags @() 
+ID de processus : 11940
+PSVersion: 5.1.19041.2364
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.19041.2364
+BuildVersion: 10.0.19041.2364
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Installation de NuGet
+Chargement du fichier de configurations
+Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Dorian-Capelli.xlsx
+Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Joca-Bolli.xlsx
+Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Nolan-Praz.xlsx
+Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Sayeh-Younes.xlsx
+Importation de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Sylvain-Philipona.xlsx
+Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEvals-P_Appro-CIN4b-GGZ-1.xlsm
+**********************
+Fin de la transcription Windows PowerShell
+Heure de fin : 20230303110134
+**********************
