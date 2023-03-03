@@ -50,6 +50,7 @@
         --> Enregistrement de E:\09-P_Appro\PS-Eval\Scripts\02-evaluations\AutoEval-Sylvain-Philipona.xlsx
  	
 .LINK
+    Get-Constants.ps1
     Install-Requirements.ps1
     Test-Paths.ps1
     Stop-Program.ps1
@@ -123,8 +124,12 @@ foreach($student in  $students){
         $excel = New-Object -ComObject excel.application
     }
     catch [System.Runtime.InteropServices.COMException] {
-        Stop-Program.ps1 -errorMessage "Excel n'est pas installé. Veuillez l'installer et recomencer !"
+        .\Stop-Program.ps1 -errorMessage "Excel n'est pas installé. Veuillez l'installer et recomencer !"
     }
+    catch{
+        .\Stop-Program.ps1 -errorMessage "Une erreur est survenue. Verifiez que Excel est bien installé et configuré !"
+    }
+
     $excel = New-Object -ComObject excel.application
     $excel.visible = $false
     $workbook = $excel.Workbooks.Open($ModelPath)

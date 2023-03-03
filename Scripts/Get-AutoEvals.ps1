@@ -97,6 +97,9 @@ try{
 catch [System.Runtime.InteropServices.COMException] {
     .\Stop-Program.ps1 -errorMessage "Excel n'est pas installé. Veuillez l'installer et recomencer !"
 }
+catch{
+    .\Stop-Program.ps1 -errorMessage "Une erreur est survenue. Verifiez que Excel est bien installé et configuré !"
+}
 
 $WorkbooxSynthesis = $excel.workbooks.Open($SynthesisModelPath)
 
