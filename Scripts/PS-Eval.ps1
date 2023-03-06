@@ -91,7 +91,7 @@ $getEvalsButton = New-Object System.Windows.Forms.Button
 $getEvalsButton.Size = New-Object System.Drawing.Size($InputsWidth,$InputsHeight)
 $getEvalsButton.Left = ($form.ClientSize.Width - $getEvalsButton.Width) / 2 ;
 $getEvalsButton.Top = $createEvalsButton.Bottom + $SpaceBetweenInputs 
-$getEvalsButton.Text = 'Rappatrier les auto-évaluations'
+$getEvalsButton.Text = 'Rapatrier les auto-évaluations'
 $form.Controls.Add($getEvalsButton)
 
 # Advanced Mode link
@@ -184,7 +184,8 @@ $createEvalsButton.Add_Click(
         $outputPathInput.Text = $outputPathInput.Text.TrimEnd('\')
 
         try{
-            [System.Windows.Forms.MessageBox]::Show("Lancement de la création des auto-évaluations. Cela peux prendre 1-2 minutes" , "Lancement de la création")
+            # Dispaly the toast notif
+            .\Show-Notification.ps1 -ToastTitle "Recuperation des auto-évaluations" -ToastText "Lancement de la création des auto-évaluations. Cela peux prendre 1-2 minutes"
 
             # Start the creation
             .\Create-AutoEvals.ps1 -ConfigsPath $configPathInput.Text -ModelPath $modelPathInput.Text -OutputPath $outputPathInput.Text
@@ -213,7 +214,8 @@ $getEvalsButton.Add_Click(
         $outputPathInput.Text = $outputPathInput.Text.TrimEnd('\')
         
         try{
-            [System.Windows.Forms.MessageBox]::Show("Lancement de la récupération des auto-évaluations. Cela peux prendre 1-2 minutes" , "Lancement de la récupération")
+            # Dispaly the toast notif
+            .\Show-Notification.ps1 -ToastTitle "Recuperation des auto-évaluations" -ToastText "Lancement de la récupération des auto-évaluations. Cela peux prendre 1-2 minutes"
 
             # Start the creation
             .\Get-AutoEvals.ps1 -ConfigsPath $configPathInput.Text -SynthesisModelPath $synthesisPathInput.Text -FilesPath $outputPathInput.Text

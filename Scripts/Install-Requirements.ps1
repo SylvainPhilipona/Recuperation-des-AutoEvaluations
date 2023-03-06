@@ -22,20 +22,21 @@
 
     Installation de NuGet
     Ajout du répertoire PSGallery en répertoire de confiance
+    Installation de BurntToast
     Installation de ImportExcel
 #>
 
-#Install the NuGet package
+# Install the NuGet package
 Write-Host "Installation de NuGet" -ForegroundColor Green
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.208 -Scope CurrentUser -Force -Confirm:$false | Out-Null
 
-#Set PSGallery repo to trusted -> For the ImportExcel installation
+# Set PSGallery repo to trusted -> For the ImportExcel installation
 if((Get-PSRepository -Name "PSGallery").InstallationPolicy -ne "Trusted"){
     Write-Host "Ajout du répertoire PSGallery en répertoire de confiance" -ForegroundColor Green
     Set-PSRepository -name  "PSGallery" -InstallationPolicy Trusted
 }
 
-#Install the module ImportExcel
+# Install the module ImportExcel
 if(!(Get-Module -ListAvailable -name ImportExcel)){
     Write-Host "Installation de ImportExcel" -ForegroundColor Green
     Install-Module ImportExcel -Scope CurrentUser -Confirm:$false #https://github.com/dfinke/ImportExcel

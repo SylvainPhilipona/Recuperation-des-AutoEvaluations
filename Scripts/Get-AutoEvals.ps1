@@ -7,9 +7,9 @@
     Date:	23.02.2023
  	*****************************************************************************
     Modifications
- 	Date  : 02.03.2023
+ 	Date  : 06.03.2023
  	Author: Sylvain Philipona
- 	Reason: Ajout de constantes via le fichier Get-Constants.ps1
+ 	Reason: Ajout d'une notif toast
  	*****************************************************************************
 .SYNOPSIS
     Récupération des auto-évaluations des élèves
