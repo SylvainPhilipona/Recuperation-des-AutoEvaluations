@@ -184,7 +184,7 @@ $createEvalsButton.Add_Click(
         $outputPathInput.Text = $outputPathInput.Text.TrimEnd('\')
 
         try{
-            # Dispaly the toast notif
+            # Display the toast notif
             .\Show-Notification.ps1 -ToastTitle "Recuperation des auto-évaluations" -ToastText "Lancement de la création des auto-évaluations. Cela peux prendre 1-2 minutes"
 
             # Start the creation
