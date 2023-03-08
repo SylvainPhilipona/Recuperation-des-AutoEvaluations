@@ -58,7 +58,7 @@ param (
 
 $constants = .\Get-Constants.ps1
 $ConfigSheet = $constants.ConfigFile.ConfigSheet
-$CLASSE = $constants.RequiredInputs.CLASSE
+$CLASSROOM = $constants.RequiredInputs.CLASSROOM
 $PROJECTNAME = $constants.RequiredInputs.PROJECTNAME
 $VISA = $constants.RequiredInputs.VISA
 
@@ -126,7 +126,7 @@ foreach($config in $Configs){
 #Save and close the object
 # AutoEvals-ProjectName-Classe-Prof-01.xlsm
 $ExcelFixedFormat = [Microsoft.Office.Interop.Excel.XlFileFormat]::xlOpenXMLWorkbookMacroEnabled
-$FileName = "$FilesPath\AutoEvals-$($ConfigsHash[$PROJECTNAME])-$($ConfigsHash[$CLASSE])-$($ConfigsHash[$VISA])-1.xlsm"
+$FileName = "$FilesPath\AutoEvals-$($ConfigsHash[$PROJECTNAME])-$($ConfigsHash[$CLASSROOM])-$($ConfigsHash[$VISA])-1.xlsm"
 $WorkbooxSynthesis.Saveas($FileName,$ExcelFixedFormat)
 $excel.workbooks.Close()
 $excel.Quit()

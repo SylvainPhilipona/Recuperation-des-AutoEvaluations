@@ -67,11 +67,11 @@ param (
 $constants = .\Get-Constants.ps1
 $ConfigSheet = $constants.ConfigFile.ConfigSheet
 $StudentsSheet = $constants.ConfigFile.StudentsSheet
-$CLASSE = $constants.RequiredInputs.CLASSE
+$CLASSROOM = $constants.RequiredInputs.CLASSROOM
 $TEACHER = $constants.RequiredInputs.TEACHER
 $PROJECTNAME = $constants.RequiredInputs.PROJECTNAME
 $NBWEEKS = $constants.RequiredInputs.NBWEEKS
-$DATES = $constants.RequiredInputs.DATES
+$DATESSTART = $constants.RequiredInputs.DATESSTART
 $DATEEND = $constants.RequiredInputs.DATEEND
 
 
@@ -139,12 +139,12 @@ foreach($student in  $students){
     $Sheet1.Unprotect()
     
     #Replace the cells with the configs datas
-    $Sheet1.cells.find("[NAME]") = "$($student.Prenom) $($student.Nom)"
-    $Sheet1.cells.find("[CLASSE]") = $ConfigsHash[$CLASSE]
-    $Sheet1.cells.find("[TEACHER]") = $ConfigsHash[$TEACHER]
-    $Sheet1.cells.find("[PROJECTNAME]") = $ConfigsHash[$PROJECTNAME]
-    $Sheet1.cells.find("[NBWEEKS]") = $ConfigsHash[$NBWEEKS]
-    $Sheet1.cells.find("[DATES]") = "$($ConfigsHash[$DATES].ToString("yyyy/MM/dd"))-$($ConfigsHash[$DATEEND].ToString("yyyy/MM/dd"))"
+    $Sheet1.cells.find("NAME") = "$($student.Prenom) $($student.Nom)"
+    $Sheet1.cells.find("CLASSROOM") = $ConfigsHash[$CLASSROOM]
+    $Sheet1.cells.find("TEACHER") = $ConfigsHash[$TEACHER]
+    $Sheet1.cells.find("PROJECTNAME") = $ConfigsHash[$PROJECTNAME]
+    $Sheet1.cells.find("NBWEEKS") = $ConfigsHash[$NBWEEKS]
+    $Sheet1.cells.find("DATESMERGED") = "$($ConfigsHash[$DATESSTART].ToString("yyyy/MM/dd"))-$($ConfigsHash[$DATEEND].ToString("yyyy/MM/dd"))"
 
     #Set the sheet name
     $Sheet1.Name = "$($student.Prenom) $($student.Nom)"

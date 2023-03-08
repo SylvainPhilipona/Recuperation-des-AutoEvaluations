@@ -45,11 +45,11 @@ return [PSCustomObject]@{
     }
 
     RequiredInputs = @{
-        CLASSE = 'Classe'
+        CLASSROOM = 'Classe'
         TEACHER = 'Enseignant'
         PROJECTNAME = 'Nom du projet'
         NBWEEKS = 'Nbr de semaines'
-        DATES = 'Date debut'
+        DATESSTART = 'Date debut'
         DATEEND = 'Date fin'
         VISA = 'Visa Enseignant'
     } 
