@@ -22,7 +22,6 @@
 
     Installation de NuGet
     Ajout du répertoire PSGallery en répertoire de confiance
-    Installation de BurntToast
     Installation de ImportExcel
 #>
 
