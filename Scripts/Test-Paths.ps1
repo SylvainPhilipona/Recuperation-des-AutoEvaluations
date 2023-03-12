@@ -37,6 +37,7 @@ param (
 
 $notExistingPaths = @()
 
+# Test all paths
 foreach($path in $paths){
     if(!(Test-path $path)){
         $notExistingPaths += $path

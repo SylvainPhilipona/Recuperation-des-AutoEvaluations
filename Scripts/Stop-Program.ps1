@@ -40,8 +40,10 @@ param (
 )
 
 try{
+    # Stop the transcription
     Stop-Transcript | out-null
 }
 catch{}
 
+# Throw the custom error message
 throw $errorMessage
