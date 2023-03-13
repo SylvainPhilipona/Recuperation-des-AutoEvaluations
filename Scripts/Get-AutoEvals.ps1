@@ -62,24 +62,31 @@ $CLASSROOM = $constants.RequiredInputs.CLASSROOM
 $PROJECTNAME = $constants.RequiredInputs.PROJECTNAME
 $VISA = $constants.RequiredInputs.VISA
 
-
+# Test if the auto-evals path exists
 if(!(Test-Path -Path $FilesPath -PathType Container)){
     .\Stop-Program.ps1 -errorMessage "Le dossier $FilesPath n'existe pas"
 }
 
+# Start the transcription
 Start-Transcript -Path "$FilesPath/Output.log" -Append -Force
 
 #Install all requirements for the script to run
 .\Install-Requirements.ps1
 
+#Verify if the config and model files exists
+$testPaths = .\Test-Paths.ps1 -paths $ConfigsPath, $SynthesisModelPath
+if(!$testPaths.count -eq 0){
+    #Dispaly the missing paths
+    $errorMessage = "Les fichiers suivants n'existent pas : `n`r"
+    foreach($path in $testPaths){
+        $errorMessage += " $path `n`r"
+    }
+    .\Stop-Program.ps1 -errorMessage $errorMessage
+}
+
 #Import the configs and students inputs
 $Configs = (Import-Excel -Path $ConfigsPath -WorksheetName $ConfigSheet)
 Write-Host "Chargement du fichier de configurations" -ForegroundColor Green
-
-# Verify that the folder exists
-if(!(Test-Path $FilesPath -PathType Container)){
-    .\Stop-Program.ps1 -errorMessage "Le dossier '$FilesPath' n'existe pas"
-}
 
 #Get all excel files in the path
 $AutoEvals = Get-ChildItem -Path $FilesPath -recurse -File -Include *.xlsx

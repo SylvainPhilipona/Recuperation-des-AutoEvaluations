@@ -75,11 +75,12 @@ $DATESSTART = $constants.RequiredInputs.DATESSTART
 $DATEEND = $constants.RequiredInputs.DATEEND
 
 
-
+# Create the output path if not exists
 if(!(Test-Path -Path $OutputPath -PathType Container)){
     New-Item -Path $OutputPath -ItemType Directory -Force -Confirm:$false
 }
 
+# Start the transcription
 Start-Transcript -Path "$OutputPath/Output.log" -Append -Force
 
 #Install all requirements for the script to run
@@ -119,7 +120,6 @@ foreach($student in  $students){
 
     Write-Host "Création de $($student.Prenom) $($student.Nom) AutoEval"
 
-    #Import the model file
     try{
         $excel = New-Object -ComObject excel.application
     }
@@ -130,7 +130,7 @@ foreach($student in  $students){
         .\Stop-Program.ps1 -errorMessage "Une erreur est survenue. Verifiez que Excel est bien installé et configuré !"
     }
 
-    $excel = New-Object -ComObject excel.application
+    #Import the model file
     $excel.visible = $false
     $workbook = $excel.Workbooks.Open($ModelPath)
     $Sheet1 = $workbook.worksheets.item(1)
