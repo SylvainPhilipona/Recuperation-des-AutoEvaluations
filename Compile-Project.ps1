@@ -52,6 +52,8 @@ param (
     [string]$scriptsPath = "./Scripts",
     [string]$outputPath = "./Recuperation-des-AutoEvaluations"
 )
+
+# Get all scripts from the path
 $scripts = Get-ChildItem -Path $scriptsPath -Filter *.ps1 -Exclude @($mainScript, $constantsScript) -Recurse
 
 # Create the Output folder and move to it
